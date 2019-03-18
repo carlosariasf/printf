@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <stdarg.h>
-#include <stdio.h> 
 /**
  * _printf - printf function
  *@format: info
