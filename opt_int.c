@@ -1,21 +1,18 @@
 #include <stdarg.h>
-#include <stdio.h>
 #include "holberton.h"
 /**
  *op_int - prints int numbers
  *
- *@a: number to print
+ *@l: number to print
  *
  *Return: the number of bytes
  */
-int op_int(int a)
+int op_int(va_list l)
 {
-	int b = 0, c = 0, d = 0, e = 1, f = 0, m = 0, n = 0;
+	int a = 0, b = 0, c = 0, d = 0, e = 1, f = 0, m = 0, n = 0;
 	char x;
 
-	/*a = va_arg(l, int);*/
-
-
+	a = va_arg(l, int);
 	f = a;
 	if (a == -2147483648)
 		a = a + 1;
@@ -25,13 +22,12 @@ int op_int(int a)
 		a = a * -1;
 	}
 	d = a;
-	while (a != 0)
+	for (b = 0; a != 0; b++)
 	{
 		a = a / 10;
 		if (c == 1)
 			e = e * 10;
 		c = 1;
-		b++;
 	}
 	c = b;
 	for (; b > 0; b--)
