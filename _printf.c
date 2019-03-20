@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include "holberton.h"
 void copy(char *dest, char *src, int len);
 int _strlen(char *);
 int null_check(const char *p);
@@ -13,7 +14,7 @@ int _printf(const char *format, ...)
 {
 va_list par;
 int i = 0, k = 0, p, len, check;
-char text[10240], *c, null[] = "(null)", n = '\0', j = '\n', r = 37;
+char text[10240], *c, null[] = "(null)", n = '\0', j = '\n', r = 37, *o;
 
 va_start(par, format);
 check = k = null_check(format);
@@ -22,6 +23,16 @@ while (check != -1 && format && format[i] != '\0')
 	if (format[i - 1] != '\\' && format[i] == '%')
 	{
 		i++;
+		if (format[i] == 'd' || format[i] == 'i')
+		{
+			*o = op_int(par);
+			len = _strlen(c);
+			if(o)
+			{
+				copy((text + k), o, len);
+                                k += len;
+			}
+		}
 		if (format[i] == 's')
 		{
 			c = va_arg(par, char *);
@@ -41,10 +52,11 @@ while (check != -1 && format && format[i] != '\0')
 		}
 		else if (format[i] == '\0')
 			return (-1);
-		else if (format[i] == '%')
+		else if (format[i] == '%' && i != 0 && format[i + 1] != '\0')
 		{
 			write(1, &r, 1);
 			return (1);
+				
 		}
 		else if (format[i] == 'c')
 		{
