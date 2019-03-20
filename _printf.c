@@ -3,6 +3,7 @@
 #include <stdio.h>
 void copy(char *dest, char *src, int len);
 int _strlen(char *);
+int null_check(const char *p);
 /**
  * _printf - printf function
  *@format: info
@@ -11,12 +12,12 @@ int _strlen(char *);
 int _printf(const char *format, ...)
 {
 va_list par;
-int i = 0, k = 0, p, len;
-char text[1024], *c, null[] = "(null)";
-;
+int i = 0, k = 0, p, len, check;
+char text[10240], *c, null[] = "(null)", n = '\0', j = '\n', r = 37;
 
 va_start(par, format);
-while (format && format[i] != '\0')
+check = k = null_check(format);
+while (check != -1 && format && format[i] != '\0')
 {
 	if (format[i - 1] != '\\' && format[i] == '%')
 	{
@@ -38,12 +39,28 @@ while (format && format[i] != '\0')
 			i++;
 			continue;
 		}
+		else if (format[i] == '\0')
+			return (-1);
 		else if (format[i] == '%')
-			text[k] = format[i];
+		{
+			write(1, &r, 1);
+			return (1);
+		}
 		else if (format[i] == 'c')
 		{
 			p = va_arg(par, int);
-			(p) ? text[k] = p : k--;
+			if (p != '\0')
+				text[k] = p;
+			else if (p == '\0')
+			{
+				write(1, &n, 1);
+				return (1);
+			}
+			else if (p == '\n')
+			{
+				write(1, &j, 1);
+				return (1);
+			}
 		}
 	}
 	else
@@ -52,7 +69,20 @@ while (format && format[i] != '\0')
 	k++;
 }
 va_end(par);
-return (write(1, text, k));
+write(1, text, k);
+return (k);
+}
+/**
+ * null_check - check null
+ * @p: *char entry
+ * Return: -1 if null
+**/
+
+int null_check(const char *p)
+{
+	if (p == NULL)
+		return (-1);
+return (0);
 }
 /**
  * copy - copy
